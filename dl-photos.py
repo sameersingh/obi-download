@@ -107,7 +107,9 @@ def download_images_and_metadata(page, output_dir, tmp_dir, images_bar):
                     with open(mdata_fname, 'w', encoding="utf-8") as fm:
                         json.dump(metadata, fm, indent=2)
                 except AttributeError:
-                    print('\n', "Skipping: ", image_id)
+                    print('\n', "Skipping (attribute): ", image_id)
+                except TypeError:
+                    print('\n', "Skipping (type): ", image_id)
             images_bar.next()
 
 
@@ -151,7 +153,7 @@ if __name__ == "__main__":
             elif opt in ("-o", "--output_dir"):
                 output_dir = arg
         if birder_id and tmp_dir and output_dir:
-            dl_photos(birder_id, "tmp", output_dir)
+            dl_photos(birder_id, tmp_dir, output_dir)
         else:
             print("Not enough arguments.")
             sys.exit(2)
